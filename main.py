@@ -1,3 +1,11 @@
-print("Olá, Rafael!")
-print("Bem-vindo ao RPManager!")
-print("Hoje começa a nossa jornada em Python! 🚀")
+import sys
+
+from PySide6.QtWidgets import QApplication
+from app.views.dashboard import Dashboard
+
+app = QApplication(sys.argv)
+
+janela = Dashboard()
+janela.show()
+
+sys.exit(app.exec())
