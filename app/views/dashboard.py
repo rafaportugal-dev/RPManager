@@ -3,63 +3,148 @@ from PySide6.QtWidgets import (
     QWidget,
     QHBoxLayout,
     QVBoxLayout,
+    QGridLayout,
     QPushButton,
-    QLabel
+    QLabel,
+    QStackedWidget
 )
 
-from app.views.clientes import Clientes
+from app.widgets.card import Card
+from app.views.clientes import TelaClientes
+from app.views.produtos import TelaProdutos
+from app.views.vendas import TelaVendas
 
 
 class Dashboard(QMainWindow):
+
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("RP Manager")
-        self.resize(1200, 700)
+        self.resize(1300, 750)
 
         central = QWidget()
         self.setCentralWidget(central)
 
-        principal = QHBoxLayout()
-        central.setLayout(principal)
+        layout_principal = QHBoxLayout(central)
 
-        # Menu lateral
+        # ==========================
+        # MENU LATERAL
+        # ==========================
+
         menu = QVBoxLayout()
 
         titulo = QLabel("RP Manager")
+        titulo.setStyleSheet("""
+            font-size:26px;
+            font-weight:bold;
+            padding:15px;
+        """)
         menu.addWidget(titulo)
 
-        btn_dashboard = QPushButton("🏠 Dashboard")
-        btn_clientes = QPushButton("👤 Clientes")
-        btn_aparelhos = QPushButton("📱 Aparelhos")
-        btn_os = QPushButton("📄 Ordem de Serviço")
-        btn_estoque = QPushButton("📦 Estoque")
-        btn_financeiro = QPushButton("💰 Financeiro")
-        btn_relatorios = QPushButton("📊 Relatórios")
+        self.btn_dashboard = QPushButton("🏠 Dashboard")
+        self.btn_clientes = QPushButton("👤 Clientes")
+        self.btn_produtos = QPushButton("📦 Produtos")
+        self.btn_vendas = QPushButton("🛒 Vendas")
+        self.btn_aparelhos = QPushButton("📱 Aparelhos")
+        self.btn_os = QPushButton("📄 Ordem de Serviço")
+        self.btn_estoque = QPushButton("📚 Estoque")
+        self.btn_financeiro = QPushButton("💰 Financeiro")
+        self.btn_relatorios = QPushButton("📊 Relatórios")
+        self.btn_config = QPushButton("⚙ Configurações")
 
-        btn_clientes.clicked.connect(self.abrir_clientes)
+        botoes = [
+            self.btn_dashboard,
+            self.btn_clientes,
+            self.btn_produtos,
+            self.btn_vendas,
+            self.btn_aparelhos,
+            self.btn_os,
+            self.btn_estoque,
+            self.btn_financeiro,
+            self.btn_relatorios,
+            self.btn_config,
+        ]
 
-        menu.addWidget(btn_dashboard)
-        menu.addWidget(btn_clientes)
-        menu.addWidget(btn_aparelhos)
-        menu.addWidget(btn_os)
-        menu.addWidget(btn_estoque)
-        menu.addWidget(btn_financeiro)
-        menu.addWidget(btn_relatorios)
+        for botao in botoes:
+            botao.setMinimumHeight(45)
+            menu.addWidget(botao)
 
         menu.addStretch()
+        menu.addWidget(QLabel("Versão 0.3"))
 
-        # Área principal
-        conteudo = QVBoxLayout()
+        # ==========================
+        # ÁREA CENTRAL
+        # ==========================
 
-        self.area = QLabel("Bem-vindo ao RP Manager")
-        conteudo.addWidget(self.area)
+        self.paginas = QStackedWidget()
+                # ==========================
+        # DASHBOARD
+        # ==========================
 
-        conteudo.addWidget(QLabel("Sistema para Assistência Técnica"))
+        pagina_dashboard = QWidget()
 
-        principal.addLayout(menu, 1)
-        principal.addLayout(conteudo, 4)
+        dash_layout = QVBoxLayout()
 
-    def abrir_clientes(self):
-        self.janela_clientes = Clientes()
-        self.janela_clientes.show()
+        titulo_dash = QLabel("🏠 Dashboard")
+        titulo_dash.setStyleSheet("""
+            font-size:28px;
+            font-weight:bold;
+        """)
+
+        dash_layout.addWidget(titulo_dash)
+        dash_layout.addWidget(QLabel("Bem-vindo ao RP Manager"))
+
+        dash_layout.addSpacing(20)
+
+        cards = QGridLayout()
+
+        cards.addWidget(Card("Clientes", 0, "👥"), 0, 0)
+        cards.addWidget(Card("Produtos", 0, "📦"), 0, 1)
+        cards.addWidget(Card("Ordens", 0, "🔧"), 1, 0)
+        cards.addWidget(Card("Financeiro", "R$ 0,00", "💰"), 1, 1)
+
+        dash_layout.addLayout(cards)
+        dash_layout.addStretch()
+
+        pagina_dashboard.setLayout(dash_layout)
+
+        # ==========================
+        # OUTRAS PÁGINAS
+        # ==========================
+
+        pagina_clientes = TelaClientes()
+        pagina_produtos = TelaProdutos()
+        pagina_vendas = TelaVendas()
+
+        self.paginas.addWidget(pagina_dashboard)   # 0
+        self.paginas.addWidget(pagina_clientes)    # 1
+        self.paginas.addWidget(pagina_produtos)    # 2
+        self.paginas.addWidget(pagina_vendas)      # 3
+
+        layout_principal.addLayout(menu, 1)
+        layout_principal.addWidget(self.paginas, 5)
+                # ==========================
+        # EVENTOS
+        # ==========================
+
+        self.btn_dashboard.clicked.connect(self.mostrar_dashboard)
+        self.btn_clientes.clicked.connect(self.mostrar_clientes)
+        self.btn_produtos.clicked.connect(self.mostrar_produtos)
+        self.btn_vendas.clicked.connect(self.mostrar_vendas)
+
+    # ==========================
+    # MÉTODOS
+    # ==========================
+
+    def mostrar_dashboard(self):
+        self.paginas.setCurrentIndex(0)
+
+    def mostrar_clientes(self):
+        self.paginas.setCurrentIndex(1)
+
+    def mostrar_produtos(self):
+        self.paginas.setCurrentIndex(2)
+
+    def mostrar_vendas(self):
+        self.paginas.setCurrentIndex(3)
