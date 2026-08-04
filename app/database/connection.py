@@ -143,3 +143,19 @@ def criar_tabela_produtos():
 
     conn.commit()
     conn.close()
+
+
+def criar_tabela_categorias():
+    """Cria a tabela de categorias."""
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS categorias (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT UNIQUE NOT NULL
+    )
+    """)
+
+    conn.commit()
+    conn.close()

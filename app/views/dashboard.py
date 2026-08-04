@@ -13,7 +13,7 @@ from app.widgets.card import Card
 from app.views.clientes import TelaClientes
 from app.views.produtos import TelaProdutos
 from app.views.vendas import TelaVendas
-
+from app.views.categorias import TelaCategorias
 
 class Dashboard(QMainWindow):
 
@@ -52,7 +52,7 @@ class Dashboard(QMainWindow):
         self.btn_financeiro = QPushButton("💰 Financeiro")
         self.btn_relatorios = QPushButton("📊 Relatórios")
         self.btn_config = QPushButton("⚙ Configurações")
-
+        self.btn_categorias = QPushButton("📂 Categorias")
         botoes = [
             self.btn_dashboard,
             self.btn_clientes,
@@ -62,6 +62,7 @@ class Dashboard(QMainWindow):
             self.btn_os,
             self.btn_estoque,
             self.btn_financeiro,
+            self.btn_categorias,
             self.btn_relatorios,
             self.btn_config,
         ]
@@ -116,11 +117,13 @@ class Dashboard(QMainWindow):
         pagina_clientes = TelaClientes()
         pagina_produtos = TelaProdutos()
         pagina_vendas = TelaVendas()
+        pagina_categorias = TelaCategorias()
 
-        self.paginas.addWidget(pagina_dashboard)   # 0
-        self.paginas.addWidget(pagina_clientes)    # 1
-        self.paginas.addWidget(pagina_produtos)    # 2
-        self.paginas.addWidget(pagina_vendas)      # 3
+        self.paginas.addWidget(pagina_dashboard)    # 0
+        self.paginas.addWidget(pagina_clientes)     # 1
+        self.paginas.addWidget(pagina_produtos)     # 2
+        self.paginas.addWidget(pagina_categorias)   # 3
+        self.paginas.addWidget(pagina_vendas)       # 4
 
         layout_principal.addLayout(menu, 1)
         layout_principal.addWidget(self.paginas, 5)
@@ -132,7 +135,9 @@ class Dashboard(QMainWindow):
         self.btn_clientes.clicked.connect(self.mostrar_clientes)
         self.btn_produtos.clicked.connect(self.mostrar_produtos)
         self.btn_vendas.clicked.connect(self.mostrar_vendas)
-
+        self.btn_categorias.clicked.connect(
+        self.mostrar_categorias
+)   
     # ==========================
     # MÉTODOS
     # ==========================
@@ -146,5 +151,8 @@ class Dashboard(QMainWindow):
     def mostrar_produtos(self):
         self.paginas.setCurrentIndex(2)
 
-    def mostrar_vendas(self):
+    def mostrar_categorias(self):
         self.paginas.setCurrentIndex(3)
+
+    def mostrar_vendas(self):
+        self.paginas.setCurrentIndex(4)
