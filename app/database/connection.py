@@ -120,3 +120,26 @@ def excluir_cliente(id_cliente):
 
     conn.commit()
     conn.close()
+
+def criar_tabela_produtos():
+    """Cria a tabela de produtos."""
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        codigo TEXT UNIQUE,
+        nome TEXT NOT NULL,
+        categoria TEXT,
+        fornecedor TEXT,
+        preco_custo REAL,
+        preco_venda REAL,
+        estoque INTEGER DEFAULT 0,
+        estoque_minimo INTEGER DEFAULT 0,
+        data_cadastro TEXT DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    conn.commit()
+    conn.close()

@@ -4,15 +4,25 @@ from PySide6.QtWidgets import QApplication
 
 from app.views.dashboard import Dashboard
 from app.styles.dark_theme import DARK_THEME
-from app.database.connection import criar_tabelas
+from app.database.connection import (
+    criar_tabelas,
+    criar_tabela_produtos
+)
 
-# Cria o banco de dados e as tabelas (caso ainda não existam)
-criar_tabelas()
 
-app = QApplication(sys.argv)
-app.setStyleSheet(DARK_THEME)
+def main():
+    # Cria as tabelas do banco de dados
+    criar_tabelas()
+    criar_tabela_produtos()
 
-janela = Dashboard()
-janela.show()
+    app = QApplication(sys.argv)
+    app.setStyleSheet(DARK_THEME)
 
-sys.exit(app.exec())
+    janela = Dashboard()
+    janela.show()
+
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
