@@ -6,7 +6,7 @@ from app.views.dashboard import Dashboard
 from app.styles.dark_theme import DARK_THEME
 
 from app.database.connection import (
-    criar_tabelas,
+    criar_tabela_clientes,
     criar_tabela_produtos,
     criar_tabela_categorias
 )
@@ -17,7 +17,7 @@ def main():
     # CRIA AS TABELAS
     # ==========================
 
-    criar_tabelas()
+    criar_tabela_clientes()
     criar_tabela_produtos()
     criar_tabela_categorias()
 

@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 from app.widgets.card import Card
 from app.views.clientes import TelaClientes
 from app.views.produtos import TelaProdutos
-from app.views.vendas import TelaVendas
+from app.views.pdv import TelaPDV
 from app.views.categorias import TelaCategorias
 
 class Dashboard(QMainWindow):
@@ -116,7 +116,7 @@ class Dashboard(QMainWindow):
 
         pagina_clientes = TelaClientes()
         pagina_produtos = TelaProdutos()
-        pagina_vendas = TelaVendas()
+        pagina_vendas = TelaPDV()
         pagina_categorias = TelaCategorias()
 
         self.paginas.addWidget(pagina_dashboard)    # 0

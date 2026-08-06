@@ -4,7 +4,8 @@ from app.services.produto_service import (
     adicionar_produto,
     listar_produtos,
     atualizar_produto,
-    excluir_produto
+    excluir_produto,
+    buscar_produto_por_codigo
 )
 
 
@@ -183,3 +184,9 @@ class ProdutoController:
         self.view.categoria.setCurrentIndex(0)
 
         self.view.codigo.setFocus()
+            # =====================================
+
+    @staticmethod
+    def buscar_por_codigo(codigo):
+
+        return buscar_produto_por_codigo(codigo)
